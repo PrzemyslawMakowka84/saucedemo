@@ -16,16 +16,22 @@ def playwright(playwright):
 
 @pytest.fixture(scope="session")
 def credentials() -> dict[str, str]:
+    user_names = [
+        "STANDARD_USER",
+        "LOCKED_OUT_USER",
+        "PROBLEM_USER",
+        "PERFORMANCE_GLITCH_USER",
+        "ERROR_USER",
+        "VISUAL_USER"
+    ]
     load_dotenv()
-    user = os.getenv("SAUCE_USER")
-    password = os.getenv("SAUCE_PASSWORD")
-    if user and password:
-        return {
-            "user": user,
-            "password": password
-        }
-    else:
-        raise ValueError("Invalid Credentials!, Check the .env file!")
+    credentials = {}
+    for user_name in user_names:
+        credentials[user_name.lower()] = os.getenv(user_name)
+    credentials["password"] = os.getenv("PASSWORD")
+    if not all(credentials.values()):
+        raise ValueError("Invalid Credentials!, Check the .env file or user_names list!")
+    return credentials
 
 
 @pytest.fixture

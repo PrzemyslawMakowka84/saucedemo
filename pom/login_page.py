@@ -1,5 +1,5 @@
 import allure
-from playwright.sync_api import Page
+from playwright.sync_api import Page, expect
 from pom.base_page import BasePage
 
 
@@ -12,15 +12,14 @@ class LoginPage(BasePage):
         self._username = self.page.get_by_test_id("username")
         self._password = self.page.get_by_test_id("password")
         self._login_button = self.page.get_by_test_id("login-button")
+        self.error_message_container = self.page.get_by_test_id("error")
 
     @allure.step("Input username")
-    def input_username(self) -> None:
-        username = self._credentials["user"]
+    def input_username(self, username: str) -> None:
         self.element_fill(self._username, username)
 
     @allure.step("Input password")
-    def input_password(self) -> None:
-        password = self._credentials["password"]
+    def input_password(self, password: str) -> None:
         self.element_fill(self._password, password, is_password_fill=True)
 
     @allure.step("Click login button")
@@ -38,3 +37,6 @@ class LoginPage(BasePage):
         self.input_username()
         self.input_password()
         self.click_login_button()
+
+    def assert_message_container_should_have_text(self, expected_text: str):
+        self.assert_element_should_have_text(locator=self.error_message_container, expected_text=expected_text)
