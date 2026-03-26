@@ -1,15 +1,39 @@
 import allure
+import pytest
 
 from pom.login_page import LoginPage
 from pom.inventory_page import InventoryPage
 
 @allure.parent_suite("Saucedemo tests")
 @allure.suite("Login tests")
-@allure.title("Login test – correct login and password")
-def test_login(login_page: LoginPage, inventory_page: InventoryPage) -> None:
-    expected_text = "Swag Labs"
+
+@pytest.mark.parametrize(
+    "user_key, is_success",
+    [
+        pytest.param("standard_user", True, id="Standard user"),
+        pytest.param("locked_out_user", False, id="Locked out user"),
+        pytest.param("problem_user", True, id="Problem user"),
+        pytest.param("performance_glitch_user", True, id="Performance glitch_user"),
+        pytest.param("error_user", True, id="Error user"),
+        pytest.param("visual_user", True, id="Visual user"),
+    ]
+)
+def test_login(
+        login_page: LoginPage,
+        inventory_page: InventoryPage,
+        credentials: dict[str, str],
+        user_key: str,
+        is_success: bool
+):
+    user_name = credentials[user_key]
+    password = credentials["password"]
     login_page.navigate_to_login_page()
-    login_page.input_username()
-    login_page.input_password()
+    login_page.input_username(user_name)
+    login_page.input_password(password)
     login_page.click_login_button()
-    inventory_page.assert_app_logo_should_have_text(expected_text)
+    if is_success:
+        expected_text = "Swag Labs"
+        inventory_page.assert_app_logo_should_have_text(expected_text)
+    else:
+        expected_text = "Epic sadface: Sorry, this user has been locked out."
+        login_page.assert_message_container_should_have_text(expected_text)
