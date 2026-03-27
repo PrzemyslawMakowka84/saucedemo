@@ -32,10 +32,10 @@ class LoginPage(BasePage):
         self.log.info(f"Navigate to url: {self.URL}")
 
     @allure.step("Login to shop")
-    def login(self) -> None:
+    def login(self, username: str, password: str) -> None:
         self.navigate_to_login_page()
-        self.input_username()
-        self.input_password()
+        self.input_username(username)
+        self.input_password(password)
         self.click_login_button()
 
     def assert_message_container_should_have_text(self, expected_text: str):
