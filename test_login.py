@@ -25,12 +25,10 @@ def test_login(
         user_key: str,
         is_success: bool
 ):
-    user_name = credentials[user_key]
+    username = credentials[user_key]
     password = credentials["password"]
     login_page.navigate_to_login_page()
-    login_page.input_username(user_name)
-    login_page.input_password(password)
-    login_page.click_login_button()
+    login_page.login(username=username, password=password)
     if is_success:
         expected_text = "Swag Labs"
         inventory_page.assert_app_logo_should_have_text(expected_text)
