@@ -48,12 +48,14 @@ def test_login_locked_user(login_page: LoginPage, credentials: dict[str, str]):
     [
         pytest.param("", "", "Epic sadface: Username is required", id="Empty username and password"),
         pytest.param("wrong_user", "", "Epic sadface: Password is required", id="Username and empty password"),
-        pytest.param("", "wrong_password", "Epic sadface: Username is required", id="Performance glitch_user"),
+        pytest.param(
+            "", "wrong_password", "Epic sadface: Username is required", id="Empty username and wrong password "
+        ),
         pytest.param(
             "wrong_user",
             "wrong_password",
             "Epic sadface: Username and password do not match any user in this service",
-            id="Error user"
+            id="Wrong username and password"
         ),
     ]
 )
