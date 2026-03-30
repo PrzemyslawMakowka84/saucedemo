@@ -50,8 +50,16 @@ class BasePage:
 
     def assert_element_should_have_text(self, locator: Locator, expected_text: str):
         element_name = self.get_element_name(locator)
-        actual_text = self.get_text_from_element(locator)
-        log_msg = f"Assert check text in element {element_name}, Actual: {actual_text}, Expected: {expected_text}"
-        with allure.step(log_msg):
-            self.log.info(log_msg)
+        step_msg = f"Assert that element {element_name}. Should have text: {expected_text}"
+        with allure.step(step_msg):
             expect(locator).to_have_text(expected_text)
+            actual_text = self.get_text_from_element(locator)
+            self.log.info(f"Assert text passed for element {element_name}. "
+                          f"Actual text: {actual_text}, expected: {expected_text}")
+
+    def assert_page_has_url(self, expected_url: str):
+        actual_url = self.page.url
+        log_msg = f"Assert check page url. Actual: {actual_url}, expected: {expected_url}"
+        with allure.step(log_msg):
+            expect(self.page).to_have_url(expected_url)
+            self.log.info(log_msg)

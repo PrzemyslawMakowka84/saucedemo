@@ -1,5 +1,6 @@
 import allure
-from playwright.sync_api import Page, expect
+from playwright.sync_api import Page
+
 from pom.base_page import BasePage
 
 
@@ -18,9 +19,10 @@ class LoginPage(BasePage):
     def input_username(self, username: str) -> None:
         self.element_fill(self._username, username)
 
-    @allure.step("Input password")
+    # @allure.step("Input password")
     def input_password(self, password: str) -> None:
-        self.element_fill(self._password, password, is_password_fill=True)
+        with allure.step("Input password"):  # To hide password in Allure Report
+            self.element_fill(self._password, password, is_password_fill=True)
 
     @allure.step("Click login button")
     def click_login_button(self) -> None:
@@ -31,12 +33,11 @@ class LoginPage(BasePage):
         self.page.goto(self.URL)
         self.log.info(f"Navigate to url: {self.URL}")
 
-    @allure.step("Login to shop")
     def login(self, username: str, password: str) -> None:
         self.navigate_to_login_page()
         self.input_username(username)
         self.input_password(password)
         self.click_login_button()
 
-    def assert_message_container_should_have_text(self, expected_text: str):
+    def assert_error_message_container_should_have_text(self, expected_text: str):
         self.assert_element_should_have_text(locator=self.error_message_container, expected_text=expected_text)
