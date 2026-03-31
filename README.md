@@ -45,10 +45,10 @@ The framework includes automated tests for:
 
 The project is structured using the Page Object Model (POM):
 
-- `pages/` – page classes with locators and actions
+- `pom/` – page classes with locators and actions
 - `tests/` – test cases
 - `conftest.py` – shared fixtures and configuration
-- `utils/` – helper methods and utilities
+- `tools/` – helper methods and utilities
 
 This structure ensures separation of concerns and improves maintainability.
 
