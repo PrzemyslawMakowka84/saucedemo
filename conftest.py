@@ -1,15 +1,24 @@
-import os
-
 import pytest
+import os
 from dotenv import load_dotenv
-from playwright.sync_api import Page
-
+from playwright.sync_api import Page, Playwright
+from tools.allure_attachments import attach_screenshot_to_allure, attach_dom_to_allure
 from pom.inventory_page import InventoryPage
 from pom.login_page import LoginPage
 
+@pytest.hookimpl(hookwrapper=True)
+def pytest_runtest_makereport(item):
+    outcome = yield
+    report = outcome.get_result()
+    if report.when == "call" and report.failed:
+        page = item.funcargs.get("page")
+        test_name = item.name
+        if page:
+            attach_screenshot_to_allure(page=page, name=f"Failed: {test_name}")
+            attach_dom_to_allure(page=page, name=f"Dom page {page.url}")
 
 @pytest.fixture(scope="session")
-def playwright(playwright):
+def playwright(playwright: Playwright) -> Playwright:
     playwright.selectors.set_test_id_attribute("data-test")
     return playwright
 
