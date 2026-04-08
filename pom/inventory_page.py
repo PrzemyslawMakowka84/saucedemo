@@ -64,7 +64,6 @@ class InventoryPage(BasePage):
                 case FilterOptions.A_TO_Z:
                     actual = self.get_all_names_from_products()
                     expected = sorted(actual)
-
                 case FilterOptions.Z_TO_A:
                     actual = self.get_all_names_from_products()
                     expected = sorted(actual, reverse=True)
