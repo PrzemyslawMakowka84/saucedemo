@@ -19,7 +19,6 @@ class LoginPage(BasePage):
     def input_username(self, username: str) -> None:
         self.element_fill(self._username, username)
 
-    # @allure.step("Input password")
     def input_password(self, password: str) -> None:
         with allure.step("Input password"):  # To hide password in Allure Report
             self.element_fill(self._password, password, is_password_fill=True)
