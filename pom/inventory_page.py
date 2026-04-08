@@ -17,7 +17,6 @@ class InventoryPage(BasePage):
 
     def __init__(self, page: Page):
         super().__init__(page)
-        self._page = page
         self._primary_header = page.get_by_test_id("primary-header")
         self._app_logo = self._primary_header.locator(".app_logo")
         self._product_prices = page.get_by_test_id("inventory-item-price")
@@ -46,6 +45,10 @@ class InventoryPage(BasePage):
         with allure.step(log_msg):
             self._select_filter_container.select_option(filter_option)
             self.log.info(log_msg)
+
+    @allure.step("Navigate to inventory page")
+    def navigate(self):
+        self.navigate_to_page(self.URL)
 
     def assert_user_logged_on_inventory_page(self, expected_title_page_text: str) -> None:
         with allure.step(f"Assert that user logged into the shop"):

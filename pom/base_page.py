@@ -32,6 +32,10 @@ class BasePage:
             self.log.info(log_msg)
             return text
 
+    def navigate_to_page(self, url: str) -> None:
+        self.page.goto(url, wait_until="domcontentloaded")
+        self.log.info(f"Navigate to url: {url}")
+
     @staticmethod
     def get_element_name(locator: Locator) -> str:
         attributes_priority = [
