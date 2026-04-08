@@ -62,3 +62,12 @@ def test_login_locked_user(login_page: LoginPage, credentials: dict[str, str]):
 def test_login_negative_cases(login_page: LoginPage, username: str, password: str, expected_error_message: str):
     login_page.login(username=username, password=password)
     login_page.assert_error_message_container_should_have_text(expected_error_message)
+
+
+@allure.parent_suite("Saucedemo tests")
+@allure.suite("Login tests")
+@allure.title("Try open inventory page without login")
+def test_access_to_inventory_requires_login(login_page: LoginPage, inventory_page: InventoryPage):
+    inventory_page.navigate()
+    expected_error_message = "Epic sadface: You can only access '/inventory.html' when you are logged in."
+    login_page.assert_access_to_inventory_was_denied(expected_text=expected_error_message)

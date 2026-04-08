@@ -1,16 +1,21 @@
-import pytest
 import os
+
+import pytest
 from dotenv import load_dotenv
 from playwright.sync_api import Page, Playwright
-from tools.allure_attachments import attach_screenshot_to_allure, attach_dom_to_allure
+
 from pom.inventory_page import InventoryPage
 from pom.login_page import LoginPage
+from tools.allure_attachments import attach_screenshot_to_allure, attach_dom_to_allure
+
 
 @pytest.hookimpl(hookwrapper=True)
-def pytest_runtest_makereport(item):
+def pytest_runtest_makereport(item, call):
     outcome = yield
     report = outcome.get_result()
-    if report.when == "call" and report.failed:
+    is_failed = report.when == "call" and report.failed
+    is_xfail = report.when == "call" and getattr(report, "wasxfail", None) is not None
+    if is_failed or is_xfail:
         page = item.funcargs.get("page")
         test_name = item.name
         if page:

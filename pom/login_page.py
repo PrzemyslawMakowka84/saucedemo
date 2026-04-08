@@ -28,15 +28,18 @@ class LoginPage(BasePage):
         self.element_click(self._login_button)
 
     @allure.step("Navigate to login page")
-    def navigate_to_login_page(self) -> None:
-        self.page.goto(self.URL)
-        self.log.info(f"Navigate to url: {self.URL}")
+    def navigate(self) -> None:
+        self.navigate_to_page(self.URL)
 
     def login(self, username: str, password: str) -> None:
-        self.navigate_to_login_page()
+        self.navigate()
         self.input_username(username)
         self.input_password(password)
         self.click_login_button()
 
     def assert_error_message_container_should_have_text(self, expected_text: str):
         self.assert_element_should_have_text(locator=self.error_message_container, expected_text=expected_text)
+
+    def assert_access_to_inventory_was_denied(self, expected_text: str):
+        self.assert_page_has_url(self.URL)
+        self.assert_error_message_container_should_have_text(expected_text=expected_text)
