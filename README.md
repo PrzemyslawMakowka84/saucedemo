@@ -106,7 +106,10 @@ pytest -n auto
 
 Test results are automatically saved to the `allure-results` directory.
 
-To generate and open the report:
+To view reports locally, make sure Allure Commandline is installed:
+https://allurereport.org/docs/install/
+
+Generate and open the report with:
 
 ```bash
 allure serve allure-results
