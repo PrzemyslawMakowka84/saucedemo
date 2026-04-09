@@ -41,7 +41,8 @@ class InventoryPage(BasePage):
         return texts
 
     def select_filter_option(self, filter_option: FilterOptions) -> None:
-        log_msg = f"Select filter option {filter_option.value}"
+        element_name = self.get_element_name(locator=self._select_filter_container)
+        log_msg = f"Select filter option {filter_option.value} from {element_name}"
         with allure.step(log_msg):
             self._select_filter_container.select_option(filter_option)
             self.log.info(log_msg)
