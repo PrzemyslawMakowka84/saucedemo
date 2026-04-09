@@ -1,5 +1,5 @@
 .venv
-allure*
+allure-results/
 .env
 .idea
 __pycache__
