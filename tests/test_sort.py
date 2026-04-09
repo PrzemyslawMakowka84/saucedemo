@@ -47,7 +47,6 @@ from pom.login_page import LoginPage
         pytest.param(
             "problem_user",
             FilterOptions.A_TO_Z,
-            marks=pytest.mark.xfail(reason="Known sorting defect for problem_user"),
             id="Problem user login. Sort A to Z"
         ),
         pytest.param(
@@ -72,7 +71,6 @@ from pom.login_page import LoginPage
         pytest.param(
             "error_user",
             FilterOptions.A_TO_Z,
-            marks=pytest.mark.xfail(reason="Known sorting defect for error_user"),
             id="Error user login. Sort A to Z"
         ),
         pytest.param(
