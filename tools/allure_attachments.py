@@ -11,3 +11,7 @@ def attach_screenshot_to_allure(page: Page, name: str, file_type: AttachmentType
 def attach_dom_to_allure(page: Page, name: str) -> None:
     dom = page.content()
     allure.attach(dom, name=name, attachment_type=AttachmentType.TEXT)
+
+
+def attach_browser_logs_to_allure(logs: list, name: str) -> None:
+    allure.attach("\n".join(logs), name=name, attachment_type=AttachmentType.TEXT)
