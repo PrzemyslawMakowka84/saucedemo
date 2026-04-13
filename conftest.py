@@ -3,7 +3,7 @@ from typing import Generator, Any
 
 import pytest
 from dotenv import load_dotenv
-from playwright.sync_api import Page, Playwright
+from playwright.sync_api import Page, Playwright, ConsoleMessage
 
 from pom.inventory_page import InventoryPage
 from pom.login_page import LoginPage
@@ -30,7 +30,7 @@ def pytest_runtest_makereport(item, call):
 def browser_logs(page: Page) -> Generator[list[str], Any, None]:
     logs = []
 
-    def handle_console(msg):
+    def handle_console(msg: ConsoleMessage):
         logs.append(f"[console:{msg.type}] {msg.text}")
 
     def handle_page_error(error):

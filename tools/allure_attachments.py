@@ -13,5 +13,5 @@ def attach_dom_to_allure(page: Page, name: str) -> None:
     allure.attach(dom, name=name, attachment_type=AttachmentType.TEXT)
 
 
-def attach_browser_logs_to_allure(logs: list, name: str) -> None:
+def attach_browser_logs_to_allure(logs: list[str], name: str) -> None:
     allure.attach("\n".join(logs), name=name, attachment_type=AttachmentType.TEXT)
