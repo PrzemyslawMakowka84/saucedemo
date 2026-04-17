@@ -90,4 +90,7 @@ def test_sort(
 ):
     login_page.login(username=credentials[user_key], password=credentials["password"])
     inventory_page.select_filter_option(filter_option)
-    inventory_page.assert_sorting(filter_option)
+    is_reverse = filter_option in [FilterOptions.HIGH_TO_LOW, FilterOptions.Z_TO_A]
+    actual = inventory_page.get_actual_data(filter_option)
+    expected = sorted(actual, reverse=is_reverse)
+    assert actual == expected, f"Items are not the same. Actual values: {actual}\nExpected values: {expected}"
