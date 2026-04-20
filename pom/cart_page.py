@@ -7,6 +7,7 @@ from pom.products_section import ProductsSection, Article
 class CartPage(ProductsSection):
     def __init__(self, page: Page):
         super().__init__(page)
+        self._checkout_button = self._page.get_by_test_id("checkout")
 
     def _get_all_description_from_products(self) -> list[str]:
         descriptions = self._get_all_texts_from_element(self._product_descriptions)
@@ -21,3 +22,6 @@ class CartPage(ProductsSection):
             Article(product_name=name, description=description, price=price)
             for name, description, price in zip(product_names, product_descriptions, product_prices)
         ]
+
+    def goto_checkout(self):
+        self._element_click(self._checkout_button)

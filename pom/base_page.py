@@ -47,7 +47,7 @@ class BasePage:
             return all_texts
 
     def _navigate_to_page(self, url: str) -> None:
-        self._page.goto(url, wait_until="domcontentloaded")
+        self._page.goto(url)
         self._log.info(f"Navigate to url: {url}")
 
     @staticmethod
@@ -75,6 +75,13 @@ class BasePage:
             actual_text = self._get_text_from_element(locator)
             self._log.info(f"Assert text passed for element {element_name}. "
                           f"Actual text: {actual_text}, expected: {expected_text}")
+
+    def _assert_element_is_visible(self, locator: Locator):
+        element_name = self._get_element_name(locator)
+        step_msg = f"Assert that element {element_name} is visible on page"
+        with allure.step(step_msg):
+            expect(locator).to_be_visible()
+            self._log.info(step_msg)
 
     def _assert_page_has_url(self, expected_url: str):
         actual_url = self._page.url

@@ -1,8 +1,14 @@
 from pom.cart_page import CartPage
+from pom.checkout_page import CheckoutPage
 from pom.inventory_page import InventoryPage
 from pom.login_page import LoginPage
 
-def test_add_product_to_basket(login_page: LoginPage, inventory_page:  InventoryPage, cart_page: CartPage, credentials):
+def test_full_order_product(
+        login_page: LoginPage,
+        inventory_page: InventoryPage,
+        cart_page: CartPage,
+        checkout_page: CheckoutPage,
+        credentials):
     login_page.login(credentials["standard_user"], credentials["password"])
     products_to_add = ["Sauce Labs Backpack", "Sauce Labs Bike Light", "Sauce Labs Bolt T-Shirt"]
     expected_articles = []
@@ -14,3 +20,6 @@ def test_add_product_to_basket(login_page: LoginPage, inventory_page:  Inventory
     actual_articles = cart_page.get_articles_from_cart()
     assert actual_articles == expected_articles, \
         f"Products are in basket are different on the cart. Actual: {actual_articles}, Expected: {expected_articles}"
+    cart_page.goto_checkout()
+    checkout_page.assert_user_goto_checkout_page()
+    checkout_page.fill_form(first_name="test", last_name="test", postal_code="12345")
