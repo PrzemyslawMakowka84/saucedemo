@@ -8,7 +8,6 @@ class CheckoutPage(BasePage):
 
     def __init__(self, page: Page):
         super().__init__(page)
-        self._header_page = self._page.get_by_test_id("secondary-header")
         self._first_name = self._page.get_by_test_id("firstName")
         self._last_name = self._page.get_by_test_id("lastName")
         self._postal_code = self._page.get_by_test_id("postalCode")
@@ -23,7 +22,7 @@ class CheckoutPage(BasePage):
     def _fill_postal_code(self, postal_code: str) -> None:
         self._element_fill(self._postal_code, postal_code)
 
-    def _click_continue_button(self) -> None:
+    def click_continue_button(self) -> None:
         self._element_click(self._continue_button)
 
     def fill_form(self, first_name: str, last_name: str, postal_code: str) -> None:
@@ -31,7 +30,7 @@ class CheckoutPage(BasePage):
         self._fill_last_name(last_name)
         self._fill_postal_code(postal_code)
 
-    def assert_user_goto_checkout_page(self):
+    def assert_user_goto_checkout_page(self, expected_text: str) -> None:
         self._assert_page_has_url(self.URL)
-        self._assert_element_is_visible(self._header_page)
-        self._assert_element_should_have_text(self._header_page, expected_text="Checkout: Your Information")
+        self._assert_element_is_visible(self.secondary_header)
+        self.assert_secondary_headrt_title_should_have_text(expected_text=expected_text)

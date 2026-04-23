@@ -26,8 +26,8 @@ def test_login_positive_cases(
     username = credentials[user_key]
     password = credentials["password"]
     login_page.login(username=username, password=password)
-    expected_text = "Swag Labs"
-    inventory_page.assert_user_logged_on_inventory_page(expected_title_page_text=expected_text)
+    expected_header_text = "Products"
+    inventory_page.assert_user_logged_on_inventory_page(expected_title_page_text=expected_header_text)
 
 
 @allure.parent_suite("Saucedemo tests")

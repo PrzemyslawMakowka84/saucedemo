@@ -3,7 +3,7 @@ from enum import StrEnum
 import allure
 from playwright.sync_api import Page, Locator
 
-from pom.products_section import ProductsSection
+from pom.products_section import ProductsSection, Article
 
 
 class FilterOptions(StrEnum):
@@ -45,13 +45,20 @@ class InventoryPage(ProductsSection):
             self._select_filter_container.select_option(filter_option)
             self._log.info(log_msg)
 
+    def get_product_data(self, product_name: str) -> Article:
+        return Article(
+            product_name=self._get_product_name(product_name),
+            description=self._get_description_from_product(product_name),
+            price=self._get_price_from_product(product_name),
+        )
+
     @allure.step("Navigate to inventory page")
     def navigate(self):
         self._navigate_to_page(self.URL)
 
     def assert_user_logged_on_inventory_page(self, expected_title_page_text: str) -> None:
         with allure.step(f"Assert that user logged into the shop"):
-            self._assert_element_should_have_text(locator=self._app_logo, expected_text=expected_title_page_text)
+            self.assert_secondary_headrt_title_should_have_text(expected_text=expected_title_page_text)
             self._assert_page_has_url(expected_url=self.URL)
 
     def get_actual_data(self, filter_option: FilterOptions) -> list[str | float]:

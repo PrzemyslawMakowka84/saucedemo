@@ -7,6 +7,7 @@ from playwright.sync_api import Page, Playwright, ConsoleMessage
 
 from pom.cart_page import CartPage
 from pom.checkout_page import CheckoutPage
+from pom.checkout_step_two_page import CheckOutStepTwoPage
 from pom.inventory_page import InventoryPage
 from pom.login_page import LoginPage
 from tools.allure_attachments import attach_screenshot_to_allure, attach_dom_to_allure, attach_browser_logs_to_allure
@@ -86,3 +87,8 @@ def cart_page(page: Page) -> CartPage:
 @pytest.fixture
 def checkout_page(page: Page) -> CheckoutPage:
     return CheckoutPage(page)
+
+
+@pytest.fixture
+def checkout_step_two_page(page: Page) -> CheckOutStepTwoPage:
+    return CheckOutStepTwoPage(page)

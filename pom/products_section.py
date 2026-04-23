@@ -4,6 +4,7 @@ from playwright.sync_api import Page
 
 from pom.base_page import BasePage
 
+
 @dataclass
 class Article:
     product_name: str
@@ -14,8 +15,6 @@ class Article:
 class ProductsSection(BasePage):
     def __init__(self, page: Page):
         super().__init__(page)
-        self._primary_header = self._page.get_by_test_id("primary-header")
-        self._app_logo = self._primary_header.locator(".app_logo")
         self._inventory_items = self._page.get_by_test_id("inventory-item")
         self._product_names = self._page.get_by_test_id("inventory-item-name")
         self._product_descriptions = self._page.get_by_test_id("inventory-item-desc")
@@ -29,6 +28,10 @@ class ProductsSection(BasePage):
 
     def _get_all_names_from_products(self) -> list[str]:
         return self._get_all_text_from_locators(self._product_names)
+
+    def _get_all_description_from_products(self) -> list[str]:
+        descriptions = self._get_all_texts_from_element(self._product_descriptions)
+        return descriptions
 
     def _get_price_from_product(self, product_name: str) -> float:
         index = self._get_product_index(product_name)
@@ -52,9 +55,12 @@ class ProductsSection(BasePage):
         else:
             raise ValueError(f"Product {product_name} not found!")
 
-    def get_product_data(self, product_name: str) -> Article:
-        return Article(
-            product_name= self._get_product_name(product_name),
-            description = self._get_description_from_product(product_name),
-            price = self._get_price_from_product(product_name),
-        )
+    def get_articles(self) -> list[Article]:
+        product_names = self._get_all_names_from_products()
+        product_descriptions = self._get_all_description_from_products()
+        product_prices = self._get_all_prices_from_products()
+
+        return [
+            Article(product_name=name, description=description, price=price)
+            for name, description, price in zip(product_names, product_descriptions, product_prices)
+        ]

@@ -50,6 +50,10 @@ class BasePage:
         self._page.goto(url)
         self._log.info(f"Navigate to url: {url}")
 
+    @property
+    def secondary_header(self) -> Locator:
+        return self._page.get_by_test_id("title")
+
     @staticmethod
     def _get_element_name(locator: Locator) -> str:
         attributes_priority = [
@@ -66,6 +70,9 @@ class BasePage:
                 return attribute_value
 
         return "unknown element"
+
+    def assert_secondary_headrt_title_should_have_text(self, expected_text: str):
+        self._assert_element_should_have_text(self.secondary_header, expected_text)
 
     def _assert_element_should_have_text(self, locator: Locator, expected_text: str):
         element_name = self._get_element_name(locator)
