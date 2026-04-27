@@ -1,6 +1,6 @@
 from playwright.sync_api import Page
 
-from pom.products_section import ProductsSection
+from pom.products.products_section import ProductsSection
 
 
 class CartPage(ProductsSection):

@@ -3,7 +3,7 @@ from enum import StrEnum
 import allure
 from playwright.sync_api import Page, Locator
 
-from pom.products_section import ProductsSection, Article
+from pom.products.products_section import ProductsSection, Article
 
 
 class FilterOptions(StrEnum):

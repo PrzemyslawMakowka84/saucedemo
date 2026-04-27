@@ -3,7 +3,7 @@ from playwright.sync_api import Page
 from pom.base_page import BasePage
 
 
-class CheckoutPage(BasePage):
+class CheckoutInformationPage(BasePage):
     URL = "https://www.saucedemo.com/checkout-step-one.html"
 
     def __init__(self, page: Page):

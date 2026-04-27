@@ -5,10 +5,10 @@ import pytest
 from dotenv import load_dotenv
 from playwright.sync_api import Page, Playwright, ConsoleMessage
 
-from pom.cart_page import CartPage
-from pom.checkout_page import CheckoutPage
-from pom.checkout_step_two_page import CheckOutStepTwoPage
-from pom.inventory_page import InventoryPage
+from pom.products.cart_page import CartPage
+from pom.products.checkout_information_page import CheckoutInformationPage
+from pom.products.checkout_overview_page import CheckOutOverviewPage
+from pom.products.inventory_page import InventoryPage
 from pom.login_page import LoginPage
 from tools.allure_attachments import attach_screenshot_to_allure, attach_dom_to_allure, attach_browser_logs_to_allure
 
@@ -85,10 +85,10 @@ def cart_page(page: Page) -> CartPage:
     return CartPage(page)
 
 @pytest.fixture
-def checkout_page(page: Page) -> CheckoutPage:
-    return CheckoutPage(page)
+def checkout_information_page(page: Page) -> CheckoutInformationPage:
+    return CheckoutInformationPage(page)
 
 
 @pytest.fixture
-def checkout_step_two_page(page: Page) -> CheckOutStepTwoPage:
-    return CheckOutStepTwoPage(page)
+def checkout_overview_page(page: Page) -> CheckOutOverviewPage:
+    return CheckOutOverviewPage(page)

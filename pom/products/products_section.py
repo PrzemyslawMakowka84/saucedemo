@@ -30,7 +30,7 @@ class ProductsSection(BasePage):
         return self._get_all_text_from_locators(self._product_names)
 
     def _get_all_description_from_products(self) -> list[str]:
-        descriptions = self._get_all_texts_from_element(self._product_descriptions)
+        descriptions = self._get_all_text_from_locators(self._product_descriptions)
         return descriptions
 
     def _get_price_from_product(self, product_name: str) -> float:

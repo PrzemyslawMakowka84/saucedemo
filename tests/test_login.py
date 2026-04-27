@@ -1,7 +1,7 @@
 import allure
 import pytest
 
-from pom.inventory_page import InventoryPage
+from pom.products.inventory_page import InventoryPage
 from pom.login_page import LoginPage
 
 
