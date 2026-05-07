@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from decimal import Decimal
 
 from playwright.sync_api import Page
 
@@ -9,8 +10,10 @@ from pom.base_page import BasePage
 class Article:
     product_name: str
     description: str
-    price: float
+    price: Decimal
 
+
+QUANTIZE = Decimal("0.01")
 
 class ProductsSection(BasePage):
     def __init__(self, page: Page):
@@ -21,9 +24,9 @@ class ProductsSection(BasePage):
         self._product_prices = self._page.get_by_test_id("inventory-item-price")
         self._basket = self._page.get_by_test_id("shopping-cart-link")
 
-    def _get_all_prices_from_products(self) -> list[float]:
+    def _get_all_prices_from_products(self) -> list[Decimal]:
         return [
-            float(price.replace("$", "")) for price in self._get_all_text_from_locators(self._product_prices)
+            Decimal(price.replace("$", "")).quantize(QUANTIZE) for price in self._get_all_text_from_locators(self._product_prices)
         ]
 
     def _get_all_names_from_products(self) -> list[str]:
@@ -33,10 +36,10 @@ class ProductsSection(BasePage):
         descriptions = self._get_all_text_from_locators(self._product_descriptions)
         return descriptions
 
-    def _get_price_from_product(self, product_name: str) -> float:
+    def _get_price_from_product(self, product_name: str) -> Decimal:
         index = self._get_product_index(product_name)
         price = self._get_text_from_element(self._product_prices.nth(index))
-        return float(price.replace("$", ""))
+        return Decimal(price.replace("$", "")).quantize(QUANTIZE)
 
     def _get_description_from_product(self, product_name: str) -> str:
         index = self._get_product_index(product_name)

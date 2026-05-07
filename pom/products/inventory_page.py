@@ -46,11 +46,10 @@ class InventoryPage(ProductsSection):
             self._log.info(log_msg)
 
     def get_product_data(self, product_name: str) -> Article:
-        return Article(
-            product_name=self._get_product_name(product_name),
-            description=self._get_description_from_product(product_name),
-            price=self._get_price_from_product(product_name),
-        )
+        return Article(product_name=self._get_product_name(product_name),
+                       description=self._get_description_from_product(product_name),
+                       price=self._get_price_from_product(product_name)
+                       )
 
     @allure.step("Navigate to inventory page")
     def navigate(self):
